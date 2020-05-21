@@ -1,0 +1,4 @@
+id,password,last_login,is_superuser,username,first_name,last_name,email,is_staff,is_active,date_joined
+1,pbkdf2_sha256$180000$DNI9IbiUsu4G$ffND6MYpUCa3zmOr9DWwpuvk8ZjXl2/vxATep0d8n/k=,2020-02-29 09:54:56.789955+05:30,t,admin,"","",hisham2k9@gmail.com,t,t,2020-02-25 21:32:23.673665+05:30
+2,pbkdf2_sha256$180000$S3g93fKK0S0t$T3dkNMKbRD4cv/GyJs13CsFlj575nthWyrR4FJ3j90Q=,,f,hic@BMH,"","","",f,t,2020-03-04 08:04:00+05:30
+3,pbkdf2_sha256$180000$WFdoyGNhzoT3$lyQLHsBR0p4Cew7tOQkee5aH1OzG8A/Sq2uPX44P5Lw=,,f,cno@BMH,"","","",f,t,2020-03-04 08:05:00+05:30

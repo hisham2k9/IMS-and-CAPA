@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Incident Management System</h1>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h1>Action Plan Details View</h1>
+                                </div>
+                                <div class='text-center'>
+                                    <button type="button" onclick="window.print();return false;" class="btn btn-success btn-lg">Print This Page</button>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <form action='imsview' , method="POST" role="form">{% csrf_token %}
+                                <div class='panel panel-default'>
+                                    <div class='panel-body'>
+                                        <div class="panel panel-info">
+                                            <div class='panel-heading'>
+                                                Action Plan Details
+                                            </div>
+                                            <div class='panel body'>
+                                                <div class='row'> 
+                                                    {%for field in pt_Viewform%}
+                                                    {% if field.value %}
+                                                    {% if forloop.counter|divisibleby:2 %}
+                                                    <div class='col-lg-6'>
+                                                        <b>{{field.label}}:</b>{{field.value}}
+                                                    </div>
+                                                    {%else%}
+                                                    <div class='col-lg-6'>
+                                                        <b>{{field.label}}:</b>{{field.value}}
+                                                    </div>
+                                                    {%endif%}
+                                                    {%endif%}
+                                                    {%endfor%}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-warning">
+                                            <div class='panel-heading'>
+                                                Incident details
+                                            </div>
+                                            <div class='panel body'>
+                                                <div class='row'> 
+                                                    {%for field in detail_Viewform%}
+                                                    {% if field.value %}
+                                                    {% if forloop.counter|divisibleby:2 %}
+                                                    <div class='col-lg-6'>
+                                                        <b>{{field.label}}:</b>{{field.value}}
+                                                    </div>
+                                                    {%else%}
+                                                    <div class='col-lg-6'>
+                                                        <b>{{field.label}}:</b>{{field.value}}
+                                                    </div>
+                                                    {%endif%}
+                                                    {%endif%}
+                                                    {%endfor%}
+                                                </div>
+                                                <div class='row'>
+                                                    <div class='col-lg-6'>
+                                                        <b>Submission files:</b> <br>
+                                                    {%for file in subfiles%}
+                                                    {%if file.file != False %}
+                                                    <b>{{forloop.counter}}. </b><a href='media/{{file.file}}'>{{file.file}}</a><br>
+                                                    {%endif%}
+                                                    {%endfor %}
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        {% if assign_Viewform %}
+                                        <div class="panel panel-success">
+                                            <div class='panel-heading'>
+                                                Quality Department
+                                            </div>
+                                            <div class='panel body'>
+                                                <div class='row'> 
+                                                    {%for field in assign_Viewform%}
+                                                    {% if field.value %}
+                                                    {% if forloop.counter|divisibleby:2 %}
+                                                    <div class='col-lg-6'>
+                                                        <b>{{field.label}}:</b>{{field.value}}
+                                                    </div>
+                                                    {%else%}
+                                                    <div class='col-lg-6'>
+                                                        <b>{{field.label}}:</b>{{field.value}}
+                                                    </div>
+                                                    {%endif%}
+                                                    {%endif%}
+                                                    {%endfor%}
+                                                </div>
+                                                <b>Quality Attachment:</b> <br>
+                                                {%for file in assfiles%}
+                                                <b>{{forloop.counter}}. </b><a href='media/{{file.file}}'>{{file.file}}</a><br>
+                                                {%endfor %}
+                                            </div>
+                                        </div>
+                                        {%endif%}
+
+                                        {% if investigate_Viewform%}
+                                        <div class="panel panel-info">
+                                            <div class='panel-heading'>
+                                                Investigation
+                                            </div>
+                                            <div class='panel body'>
+                                                <div class='row'> 
+                                                    {%for field in investigate_Viewform%}
+                                                    {% if field.value %}
+                                                    {% if forloop.counter|divisibleby:2 %}
+                                                    <div class='col-lg-6'>
+                                                        <b>{{field.label}}:</b>{{field.value}}
+                                                    </div>
+                                                    {%else%}
+                                                    <div class='col-lg-6'>
+                                                        <b>{{field.label}}:</b>{{field.value}}
+                                                    </div>
+                                                    {%endif%}
+                                                    {%endif%}
+                                                    {%endfor%}
+                                                </div>
+                                                <b>Investigation Attachment:</b> <br>
+                                                {%for file in invfiles%}
+                                                <b>{{forloop.counter}}. </b><a href='media/{{file.file}}'>{{file.file}}</a><br>
+                                                {%endfor %}
+                                            </div>
+                                        </div>
+                                        {%endif%}
+
+                                        {%if validate_Viewform%}
+                                        <div class="panel panel-warning">
+                                            <div class='panel-heading'>
+                                                Validation
+                                            </div>
+                                            <div class='panel body'>
+                                                <div class='row'> 
+                                                    {%for field in validate_Viewform%}
+                                                    {% if field.value %}
+                                                    {% if forloop.counter|divisibleby:2 %}
+                                                    <div class='col-lg-6'>
+                                                        <b>{{field.label}}:</b>{{field.value}}
+                                                    </div>
+                                                    {%else%}
+                                                    <div class='col-lg-6'>
+                                                        <b>{{field.label}}:</b>{{field.value}}
+                                                    </div>
+                                                    {%endif%}
+                                                    {%endif%}
+                                                    {%endfor%}
+                                                </div>
+                                                    <b>Validation Attachment:</b> <br>
+                                                    {%for file in valfiles%}
+                                                    <b>{{forloop.counter}}. </b><a href='media/{{file.file}}'> {{file.file}}</a><br>
+                                                    {%endfor %}
+                                                
+                                            </div>
+                                        </div>
+                                        {%endif%}
+
+                                        {%if closure_ViewForm %}
+                                        <div class="panel panel-success">
+                                            <div class='panel-heading'>
+                                                Closure
+                                            </div>
+                                            <div class='panel body'>
+                                                <div class='row'> 
+                                                    {%for field in closure_ViewForm%}
+                                                    {% if field.value %}
+                                                    {% if forloop.counter|divisibleby:2 %}
+                                                    <div class='col-lg-6'>
+                                                        <b>{{field.label}}:</b>{{field.value}}
+                                                    </div>
+                                                    {%else%}
+                                                    <div class='col-lg-6'>
+                                                        <b>{{field.label}}:</b>{{field.value}}
+                                                    </div>
+                                                    {%endif%}
+                                                    {%endif%}
+                                                    {%endfor%}
+                                                </div>
+                                                    <b>Closure Attachment:</b> <br>
+                                                    {%for file in clofiles%}
+                                                    <b>{{forloop.counter}}. </b><a href='media/{{file.file}}'>{{file.file}}</a><br>
+                                                    {%endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {%endif%}
+                                    </div>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>        
+            </div>                    
+        </div>                        
+    </div>
+</div>  
+
+<script type='text/javascript'>
+   
+    $(document).ready(function() {
+        $('.selectmulti').select2();
+    });
+
+</script>
+
+
+{%endblock%}

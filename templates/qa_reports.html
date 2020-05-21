@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load render_table from django_tables2 %}
+{% block content %}
+
+
+            <!-- Page Content -->
+            <div id="page-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1 class="page-header">Quality Reports</h1>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <form action='Report_search', method='POST'>
+                            {% csrf_token %}
+                            <div class="col-lg-4">  
+                                <div class="form-group">
+                                    <label>Select Report Type</label>
+                                    <select name = item class="form-control">
+                                        {% for Report in QA_ReportList%}
+                                        <option>{{Report}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label>Select Location</label>
+                                    <select name='loc' class="form-control">
+                                        <option>All</option>
+                                        <{% for Location in LocationList%}
+                                        <option>{{Location}}</option>
+                                        {% endfor %}
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <button type="submit" class="btn btn-primary  btn-lg btn-block">Search</button>
+                            </div>
+                            
+                        </form>
+                    </div>
+                    <div class="row">
+                        <h3>You are Seeing {{ReportType}} Report from {{location}}</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+ 
+                                        {% render_table table %}
+
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+
+                        
+                        <!-- <h1>List of Videos</h1>
+<table border="1" width="600">
+<tr>
+<td>Name</td>
+<td>Description</td>
+</tr>
+
+{% for all in alls %}
+<tr>
+<td>{{ all.pt_name }}</td>
+<td>
+{{ all.pt_location }}</td>
+{% endfor %} -->
+                        <!-- /.col-lg-12 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- /#page-wrapper -->
+
+        </div> 
+        {% endblock %}
+    {%block js %}
+    
+<script>
+    $(document).ready( function () {
+        $('#table').DataTable({ 
+            dom:'B<"clear">ifrtip',
+            buttons:{
+                name:'primary',
+                buttons:['copy', 'csv', 'excel','pdf', 'print']
+                
+            }
+            
+        });
+
+    } );
+</script>    
+
+
+
+
+
+{% endblock %}

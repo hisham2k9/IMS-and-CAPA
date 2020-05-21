@@ -1,0 +1,31 @@
+"""nursingmis URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/3.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path, include
+from . import views
+from ims.views import imsview,imsdetailview
+
+urlpatterns = [
+    path('imsedit', views.imsedit, name='imsedit'),
+    path('imsedit<int:pk>',views.imsedit,name='imsedit'),
+    path('imsdelete<int:pk>', views.imsdelete, name='imsdelete'),
+    path('imsview', imsview.as_view(), name='imsview'),
+    path('imsview<str:_create>', imsview.as_view(), name='imsview'),
+    path('imsdetailview<int:pk>',imsdetailview.as_view(),name='imsdetailview'),
+    path('imshome', views.imshome, name='imshome'),
+    path('imsadmin',views.imsadmin, name='imsadmin'),
+    path('imsarchive',views.imsarchive,name='imsarchive')
+    ]

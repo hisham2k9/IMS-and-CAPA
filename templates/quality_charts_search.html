@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% load chartkick %}
+{% block content %}
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Quality Charts</h1>
+                
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <form action='quality_charts' method="POST">
+                <div class="col-lg-6">
+                {%csrf_token%}
+                    <div class="form-group">
+                        <label>Select Location</label>
+                        <select name=locSelection class="form-control">
+                            <option>All</option>
+                            {%for item in LocationList %}
+                            <option>{{item}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <button type="submit" class="btn btn-primary  btn-lg btn-block">Search</button>
+                </div>
+            </form>
+        </div>
+            
+        </div>
+        <div class="row">
+            {% for name in ChartNames %}
+            
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {{name}} Line Chart
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <canvas id="{{name}}" width="400" height="400"></canvas>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+           
+        {%endfor%}
+        
+    </div>    
+</div>
+
+{% endblock %}
+
+{% block js %}
+{% for qsList, LqsList, name in scriptdata %}
+<script>
+    $(document).ready(function() {
+        var ctx = document.getElementById('{{name}}').getContext('2d');
+        var chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [{%for months in qsList%} '{{months.month}}', {% endfor %}],
+          datasets: [
+            { data: [{%for counts in qsList%}'{{counts.c}}', {% endfor %}],label: "Hospital",borderColor: "#3e95cd",fill: false}, 
+            { data: [{%for counts in LqsList%}'{{counts.c}}', {% endfor %}], label: "{{loc}}", borderColor: "#8e5ea2",fill: false}, 
+            
+          ]
+        },
+        options: {
+          title: {
+            display: true,
+            text: '{{name}} Comparision'
+          }
+        }
+      });
+    });
+</script>
+{% endfor %}
+{% endblock js %}
+

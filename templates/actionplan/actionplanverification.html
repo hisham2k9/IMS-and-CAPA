@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Incident Management System</h1>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h1>{{formname}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="panel panel-info">
+                    <div class='panel-heading'>
+                        Action Plan Details
+                    </div>
+                    <div class='panel body'>
+                        <div class='row'> 
+                            {%for field in creationForm%}
+                            {% if field.value %}
+                            {% if forloop.counter|divisibleby:2 %}
+                            <div class='col-lg-6'>
+                                <b>{{field.label}}:</b>{{field.value}}
+                            </div>
+                            {%else%}
+                            <div class='col-lg-6'>
+                                <b>{{field.label}}:</b>{{field.value}}
+                            </div>
+                            {%endif%}
+                            {%endif%}
+                            {%endfor%}
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class='panel-heading'>
+                        Status Update Details
+                    </div>
+                    <div class='panel body'>
+                        <div class='row'> 
+                            {%for field in statusform%}
+                            {% if field.value %}
+                            {% if forloop.counter|divisibleby:2 %}
+                            <div class='col-lg-6'>
+                                <b>{{field.label}}:</b>{{field.value}}
+                            </div>
+                            {%else%}
+                            <div class='col-lg-6'>
+                                <b>{{field.label}}:</b>{{field.value}}
+                            </div>
+                            {%endif%}
+                            {%endif%}
+                            {%endfor%}
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-info">
+                    <div class='panel-heading'>
+                        Completion Update Details
+                    </div>
+                    <div class='panel body'>
+                        <div class='row'> 
+                            {%for field in completionform%}
+                            {% if field.value %}
+                            {% if forloop.counter|divisibleby:2 %}
+                            <div class='col-lg-6'>
+                                <b>{{field.label}}:</b>{{field.value}}
+                            </div>
+                            {%else%}
+                            <div class='col-lg-6'>
+                                <b>{{field.label}}:</b>{{field.value}}
+                            </div>
+                            {%endif%}
+                            {%endif%}
+                            {%endfor%}
+                        </div>
+                    </div>
+                </div>
+                <form action='actionplanedit' , method="POST" enctype="multipart/form-data" role="form">{% csrf_token %}
+                    <div class='panel panel-default'>
+                        <div class='panel-heading'>
+                            Verification Details
+                        </div>
+                        <div class='panel-body'>
+                            {%for field in verificationform %}
+
+                            <div class="form-group col-md-6 mb-0">
+                                {{field|as_crispy_field}}
+                            </div>
+                            {%endfor%}
+
+                            {% if pk %} 
+                            <!-- previous instance call -->
+                            <input type=hidden id=primary name=primkey value={{pk}}>
+                            {%endif %}
+                            <br>
+                            <div class='row'></div>
+                            <div class='row'>
+                                <div class="col-lg-6">
+                                    <button type="submit" class="btn btn-danger btn-lg btn-block"  id='decline' name = 'reject' value = 'reject'>Reject</button>
+                                </div>
+                                <div class="col-lg-6">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-block" id='complete' name = 'submission' value = 'submission'>Verify and Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+                </div>        
+            </div>                    
+        </div>                        
+    </div>
+</div>  
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+       $('#decline').on('click',function()
+       {
+           return confirm ('Confirm Rejection?');
+       });
+    });
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+       $('#complete').on('click',function()
+       {
+           return confirm ('Confirm Verification Update?');
+       });
+    });
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        {%if messages %}
+        {% for message in messages %}
+        alert('{{message}}');
+        {%endfor%}
+        {%endif%}
+       
+    });
+
+</script>
+
+{%endblock%}

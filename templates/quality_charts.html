@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% load chartkick %}
+{% block content %}
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Quality Charts</h1>
+                
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <form action='quality_charts' method="POST">
+                <div class="col-lg-6">
+                {%csrf_token%}
+                    <div class="form-group">
+                        <label>Select Location</label>
+                        <select name=locSelection class="form-control">
+                            <option>All</option>
+                            {%for item in LocationList %}
+                            <option>{{item}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <button type="submit" class="btn btn-primary  btn-lg btn-block">Search</button>
+                </div>
+            </form>
+        </div>
+            
+        </div>
+        <div class="row">
+            {% for name in ChartNames %}
+            {% if forloop.counter|divisibleby:2 %}
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {{name}} Line Chart
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <canvas id="{{name}}" width="400" height="400"></canvas>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+           {% else %}
+           <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{name}} Pie Chart
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <canvas id="{{name}}" width="400" height="400"></canvas>
+                    
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        {% endif %}
+        {%endfor%}
+    </div>    
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+
+{% for qs, name in scriptdata %}
+{% if forloop.counter|divisibleby:2 %}
+<script>
+    $ (document).ready(function(){
+
+    
+    var ctx = document.getElementById('{{name}}').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'line',
+    data: {
+        labels: [{%for months in qs%} '{{months.month}}', {% endfor %}],
+        datasets: [{
+            label: '# of Cases',
+            data: [{%for counts in qs%}'{{counts.c}}', {% endfor %}],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            fill: false,
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+});
+    
+</script>
+
+{% else %}
+<script>
+    $ (document).ready(function(){
+
+    
+    var ctx = document.getElementById('{{name}}').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'pie',
+    data: {
+        labels: [{%for single_loc in qs%} '{{single_loc.pt_location}}', {% endfor %}],
+        datasets: [{
+            label: '# of Votes',
+            data: [{%for single_pt in qs    %}'{{single_pt.pt_id__count}}', {% endfor %}],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+});
+
+
+    
+</script>
+
+
+{% endif %}
+{%endfor%}
+{% endblock js %}
+

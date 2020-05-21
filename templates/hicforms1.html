@@ -1,0 +1,263 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+    <!-- Page Content -->
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Forms</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <form action = 'hicdata', method="POST">
+                    {% csrf_token %}
+                    <div class="col-lg-4">
+                        <label><h3><b>Select Form Type :</b></h3></label>
+                    </div>
+                    <div class="col-lg-4">
+                        <select name="item" class="form-control">
+                            {% for item in FormList %}
+                            <option>{{item}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                        <button class="btn btn-primary  btn-lg btn-block">Search</button>
+                    </div>                                        
+                </form>
+            </div>
+        </div>
+        {%if modellist %}
+        <form>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h1>{{formname}}</h1>
+                            </div>
+                        <div class="results">
+                            <table id="result_list">
+                                <thead>
+                                    <th scope="col"  class="action-checkbox-column"> 
+                                        <div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
+                                        <div class="clear"></div>
+                                    </th>
+                                    <th scope="col"  class="column-__str__">
+                                        <div class="text"><span>{{formname}}</span></div>
+                                        <div class="clear"></div>
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    {%for Mform in modellist %}
+                                    <tr class="row1">
+                                        <td class="action-checkbox">
+                                            <input type="checkbox" name="_selected_action" value='{{Mobject.id}}' class="action-select">
+                                        </td>
+                                        <th class="field-__str__">
+                                            <a href="{% url 'hicedit' pk=Mform.id%}">{{ Mform.pt_id }}   - {{Mform.pt_name }}</a>
+                                        </th>
+                                    </tr>
+                                    {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        {%else %}
+        
+        <form action = "hicdata", method="POST" role="form">
+            {% csrf_token %}
+            
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h1>{{formname}}</h1>
+                    </div>
+                    
+                    <div class="form-group" >
+
+                    {% for field in form %}
+                        {% if field.label == 'Patient Tracker Location 1' or field.label == 'Patient Tracker Location 2' or field.label == 'Patient Tracker Location 3' or field.label == 'Patient Tracker Location 4' or field.label == 'Patient Tracker Location 5' or field.label == 'Patient Tracker Location 6'%}
+                        <div id='{{field.name}}'>
+                            <b>{{field.label}}</b>{{field}}
+
+                            {%if field.label != 'Patient Tracker Location 6' %}
+                                <button type="button" id='add{{field.name}}' class="btn btn-primary">Add Another Location</button><br>
+                                
+                            {%endif %}
+
+                        {%else%}
+
+                            <b>{{field.label}}</b>{{field}}<br>   
+                        {%endif %} 
+                        
+                    {% endfor %}
+                    
+                        </div>
+                    </form>
+
+
+                                <!-- /.col-lg-6 (nested) -->
+                        </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            {% if form  %}
+                    <br>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block" name = {{button}}>Submit Button</button>
+                    <button type="reset" class="btn btn-success btn-lg btn-block">Reset Button</button>
+                    {% endif %}
+                        {% for message in messages %}
+                        <h2></h2><p class="text-success">{{message}}</p></h2>
+                        
+                        {% endfor %}
+                            
+
+                    {% endif %}
+
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<script type="text/javascript">
+
+
+
+    $(document).ready(function()
+    {   
+
+    
+
+        //calls change fn for any function
+        $('input').click(alertman);
+        $('input').change(alertman);
+        
+        // list of js to do click fn on add
+        $('#addpatienttrack').click(function()
+            {
+
+            $('#patienttrack1').slideDown();
+            });
+        $('#addpatienttrack1').click(function()
+            {
+            $('#patienttrack2').slideDown();
+            });
+        $('#addpatienttrack2').click(function()
+            {
+            //alert();
+            $('#patienttrack3').slideDown();
+            });
+        $('#addpatienttrack3').click(function()
+            {
+            //alert();
+            $('#patienttrack4').slideDown();
+            });
+        $('#addpatienttrack4').click(function()
+            {
+            //alert();
+            $('#patienttrack5').slideDown();
+            });
+        $('#addpatienttrack5').click(function()
+            {
+            //alert();
+            $('#patienttrack6').slideDown();
+            });
+        
+        
+        
+
+        function alertman()
+        {
+            //alert('Hello');
+            var x=0
+            while (x<=5)
+            {
+                if (x==0)
+                {
+                    var dropdt = new Date(document.getElementById("id_patienttrack_1").value);
+                    console.log(dropdt);
+                    var pickdt = new Date(document.getElementById("id_patienttrack_2").value);
+                    var newdate=parseInt((pickdt - dropdt) / (24 * 3600 * 1000));
+                    document.getElementById("id_patienttrack_3").value=newdate;
+                    console.log(newdate);
+                    //alert(newdate);
+                    x=1
+
+                }
+                else
+                {
+                    var dropdt = new Date(document.getElementById("id_patienttrack"+x+"_1").value);
+                    var pickdt = new Date(document.getElementById("id_patienttrack"+x+"_2").value);
+                    var newdate=parseInt((pickdt - dropdt) / (24 * 3600 * 1000));
+                    document.getElementById("id_patienttrack"+x+"_3").value=newdate;
+                    console.log(newdate);
+                    //alert(newdate);
+                    x=x+1
+
+                }
+            
+
+            }
+            
+        }
+    });
+    
+</script>
+
+<script type="text/javascript">
+    
+    
+  
+    $(document).ready(function()
+    {   
+        //hiding all elements in pt locationfields
+
+        $(document).ready(ptrack);
+        function ptrack()
+        {
+            var ptr=document.getElementById("id_patienttrack_0").value;
+            if (ptr == '')
+            {
+                $("#patienttrack1").hide();
+            }
+            for (var i=1; i<=5; i++)
+            {
+                var ptr=document.getElementById("id_patienttrack"+i+"_0").value;
+                if (ptr == '')
+                {
+                    $("#patienttrack"+i).hide();
+                }
+            }
+            
+            
+        }
+    });
+</script>
+
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<script>
+    $("#id_patienttrack_1").tabs({
+        activate: function(event, ui) {
+            alert("PRESSED TAB!");
+        }
+    });
+</script>
+
+{% endblock %}

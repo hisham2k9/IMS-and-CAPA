@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<style>
+    article, aside, figure, footer, header, hgroup, 
+    menu, nav, section { display: block; }
+  </style>
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Incident Management System</h1>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h1>Add New Incident</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <form action='imsview' , method="POST" enctype="multipart/form-data" role="form">{% csrf_token %}
+                                <div class='panel panel-default'>
+                                    <div class='panel-body'>
+                                        {%for field in ptform %}
+
+                                        <div class="form-group col-md-6 mb-0">
+                                            {{field|as_crispy_field}}
+                                        </div>
+                                        {%endfor%}
+                                    </div>
+                                </div>
+                                <div class='panel panel-default'>
+                                    <div class='panel-body'>
+                                        {%for field in detailform %}
+                                        {% if forloop.counter|divisibleby:2 %}
+                                        <div class="form-row">
+                                            <div class='row'>
+                                                <div class='col-lg-6'>
+                                                    {{field|as_crispy_field}}
+                                                </div>
+                                                {% else %}
+                                                <div class='col-lg-6'>
+                                                    {{field|as_crispy_field}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {%endif%}
+                                        {%endfor%}
+                                    </div>
+                                </div>
+                                <div class='panel panel-default'>
+                                    <div  class='panel-body'>
+                                        Submit Attachments: (if applicable)
+                                        {{ formset.management_form }}
+                                        {% for form in formset%}
+                                        {% for field in form %}
+                                        {{field|as_crispy_field}}
+                                        {%endfor%}
+                                                
+                                                
+                                            
+                                            
+                                            
+                                            
+                                            <!-- <img class='blah' id={{forloop.counter}} src="#" alt="your image" /> -->
+                                        {%endfor%}
+
+                                        {% if pk %} 
+                                        <!-- previous instance call -->
+                                        <input type=hidden id=primary name=primkey value={{pk}}>
+                                        {%endif %}
+
+                                        {% for message in messages %}
+                                        {{message}}
+                                        {%endfor%}
+                                    </div>
+                                </div>
+                                
+                                <div class='row'></div> 
+                                <div class='row'>
+                                    <div class="col-lg-6">
+                                        <button type="submit" class="btn btn-success btn-lg btn-block"  name = 'save' value = 'save'>save Incident</button>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block" id='raise' name = 'submission' value = 'submission'>Submit Incident</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>        
+            </div>                    
+        </div>                        
+    </div>
+</div>  
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+       $('#raise').on('click',function()
+       {
+           return confirm ('Confirm Raise Incident?');
+       });
+    });
+
+</script>
+<script type='text/javascript'>
+   
+    $(document).ready(function() {
+        $('.selectmulti').select2();
+    });
+
+</script>
+
+
+<!-- <script type='text/javascript'>
+   
+    $(function() {
+        
+        var files=$('#files');
+        $('.form-control-file').fileupload({
+            
+           //url:'imsedit',
+            //dropZone:'#dropZone',
+            dataType:'json',
+            autoUpload:false
+        }).on('fileuploadadd',function(e, data){
+            var fileTypeAllowed=/.\.(gif|jpg|png|jpeg)$/i;
+            var fileName=data.originalFiles[0]['name'];
+            var fileSize=data.originalFiles[0]['size'];
+            //console.log(fileSize);
+            if (!fileTypeAllowed.test(fileName))
+            {
+                $('#error').html('Not an image!');
+            }
+            else if (fileSize>1000000)
+            {
+                $('#error').html('File too big');
+            }
+            else 
+            {
+                $('#error').html('');
+                data.submit();
+            }
+        });
+
+        });
+
+</script>
+<script type='text/javascript'>
+$(document).ready(function(){
+    for(var i=1;i<4;i++)
+    {
+        $('#'+i).hide();
+    }
+});
+</script>
+<script type='text/javascript'>
+        
+        
+        
+        //alert('hellc');
+        $('##id_form-1-subimage').change(readURL);
+        function readURL() {
+            alert('ehll');
+            var $input = $(this);
+            
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    
+                    $('.blah')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200).show();
+                    //console.log($input);
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        }
+    
+    
+</script> -->
+
+{%endblock%}

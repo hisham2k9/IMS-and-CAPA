@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Incident Management System</h1>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h1>Add New Action Plan</h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <form action='actionplanview' , method="POST" enctype="multipart/form-data" role="form">{% csrf_token %}
+                                <div class='panel panel-default'>
+                                    <div class='panel-body'>
+                                        {%for field in creationform %}
+
+                                        <div class="form-group col-md-6 mb-0">
+                                            {{field|as_crispy_field}}
+                                        </div>
+                                        {%endfor%}
+                                    </div>
+                                </div>
+                                {% if pk %} 
+                                <!-- previous instance call -->
+                                <input type=hidden id=primary name=primkey value={{pk}}>
+                                {%endif %}
+                                <div class='row'>
+                                    <div class="col-lg-6">
+                                        <button type="submit" class="btn btn-success btn-lg btn-block"  name = 'save' value = 'save'>save Incident</button>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block" id='raise' name = 'submission' value = 'submission'>Submit Incident</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>        
+            </div>                    
+        </div>                        
+    </div>
+</div>  
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+       $('#raise').on('click',function()
+       {
+           return confirm ('Confirm Create Action Plan?');
+       });
+    });
+
+</script>
+<script type='text/javascript'>
+   
+    $(document).ready(function() {
+        $('.selectmulti').select2();
+    });
+
+</script>
+
+{%endblock%}
