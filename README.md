@@ -1,2 +1,2 @@
-# IMS and CAPA
- Incident Management System with Preventive action tracker
+# IMS-and-CAPA
+ Incident Management System with Preventive Action Tracker
