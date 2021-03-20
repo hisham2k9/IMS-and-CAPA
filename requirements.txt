@@ -11,7 +11,7 @@ django-pivot==1.8.0
 django-select-multiple-field==0.4.2
 django-tables2==2.2.1
 idna==2.8
-Jinja2==2.11.1
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 numpy==1.18.1
 packaging==20.1
